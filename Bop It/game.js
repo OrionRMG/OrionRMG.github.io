@@ -87,10 +87,11 @@ $(document).on("click", () =>{
 
 //Scroll handler
 $(document).on("mousewheel", (e) =>{
+    console.log(e);
     if (started === true && actionLock === false){
-        if (e.originalEvent.deltaY < 0){
+        if (e.originalEvent.deltaY < -30){
             checkAction("scroll-up");
-        } else {
+        } else  if (e.originalEvent.deltaY > 30){
             checkAction("scroll-down");
         }
     }
