@@ -88,10 +88,20 @@ $(document).on("click", () =>{
 //Scroll handler
 $(document).on("mousewheel", (e) =>{
     if (started === true && actionLock === false){
-        if (e.originalEvent.deltaY < -119){
-            checkAction("scroll-up");
-        } else  if (e.originalEvent.deltaY > 119){
-            checkAction("scroll-down");
+        if (detectTrackPad(e)){
+            console.log("trackpad");
+            if (e.originalEvent.deltaY < -119){
+                checkAction("scroll-up");
+            } else  if (e.originalEvent.deltaY > 119){
+                checkAction("scroll-down");
+            }
+        } else {
+            console.log("wheel");
+            if (e.originalEvent.deltaY < -99){
+                checkAction("scroll-up");
+            } else  if (e.originalEvent.deltaY > 99){
+                checkAction("scroll-down");
+            }
         }
     }
 });
@@ -160,4 +170,13 @@ function playHit(){
 function playFailSound(){
     failSound.volume = 0.2;
     failSound.play();
+}
+
+//Detect if trackpad
+function detectTrackPad(e){
+      if (e.originalEvent.wheelDeltaY === (e.originalEvent.deltaY * -3)){
+        return true;
+      } else {
+        return false;
+      }
 }
