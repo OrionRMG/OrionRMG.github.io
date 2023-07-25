@@ -1,7 +1,5 @@
 let level = 0;
 let speedScale = 2000;
-let tapSpeed = speedScale * 0.25;
-let metronome;
 let actions = ["bop-it", "click", "scroll-down", "scroll-up"];
 let currentAction;
 let timer;
@@ -9,12 +7,13 @@ let started = false;
 let actionLock = false;
 let highScore = 0;
 let hit = new Audio("sounds/hit.mp3");
-let tap = new Audio("sounds/metronome.mp3");
 let failSound = new Audio("sounds/fail.mp3");
+let music = new Audio("sounds/music.mp3");
+music.volume = 0.2;
 
 function nextAction(){
     actionLock = false;
-    setMetronomeSpeed();
+    music.playbackRate = music.playbackRate + 0.05;
     $("#subtitle").text(level);
     $("#main-box").removeClass("box-blue");
     $("#content").removeClass("bg-blue")
@@ -59,7 +58,7 @@ $(document).on("keydown", (e) =>{
         $("#content").removeClass("bg-failed")
         level = 0;
         started = true;
-        setMetronome();
+        music.play();
         nextAction();
     } else if (e.key === " " && started === true && actionLock === false){
         checkAction("bop-it");
@@ -72,7 +71,9 @@ $(document).on("keydown", (e) =>{
         $("#icon").attr("src", "images/bop-it.png");
         $("h1").text("Bop it to start!");
         $("#subtitle").text("(Hint: 'Bop it' is 'space'. 'R' to reset)");
-        clearInterval(metronome);
+        music.pause();
+        music.currentTime = 0;
+        music.playbackRate = 1;
         speedScale = 2000;
     }
 });
@@ -105,10 +106,10 @@ function startTimer(){
         playFailSound();
         speedScale = 2000;
         started = false;
-        clearInterval(metronome);
+        music.pause();
+        music.currentTime = 0;
+        music.playbackRate = 1;
         checkHighScore();
-        console.log(tapSpeed);
-        console.log(speedScale);
     }, speedScale);
 }
 
@@ -121,7 +122,7 @@ function checkAction(action){
         $("#main-box").addClass("box-blue");
         $("#content").addClass("bg-blue")
         setTimeout(() => {
-            speedScale = speedScale * 0.9;
+            speedScale = speedScale * 0.925;
             nextAction();
         }, 500);
     } else {
@@ -133,10 +134,10 @@ function checkAction(action){
         playFailSound();
         speedScale = 2000;
         started = false;
-        clearInterval(metronome);
+        music.pause();
+        music.currentTime = 0;
+        music.playbackRate = 1;
         checkHighScore();
-        console.log(tapSpeed);
-        console.log(speedScale);
     }
 }
 
@@ -156,16 +157,4 @@ function playHit(){
 function playFailSound(){
     failSound.volume = 0.2;
     failSound.play();
-}
-
-//Set click speed
-function setMetronome(){
-    tap.volume = 0.2;
-    metronome = setInterval(() => {
-        tap.play();
-    }, tapSpeed);
-}
-
-function setMetronomeSpeed(){
-    tapSpeed = (speedScale * 0.25);
 }
