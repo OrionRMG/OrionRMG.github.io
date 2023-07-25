@@ -87,11 +87,10 @@ $(document).on("click", () =>{
 
 //Scroll handler
 $(document).on("mousewheel", (e) =>{
-    console.log(e);
     if (started === true && actionLock === false){
-        if (e.originalEvent.deltaY < -30){
+        if (e.originalEvent.deltaY < -119){
             checkAction("scroll-up");
-        } else  if (e.originalEvent.deltaY > 30){
+        } else  if (e.originalEvent.deltaY > 119){
             checkAction("scroll-down");
         }
     }
@@ -111,6 +110,7 @@ function startTimer(){
         music.currentTime = 0;
         music.playbackRate = 1;
         checkHighScore();
+        console.log("Timeout fail");
     }, speedScale);
 }
 
@@ -139,6 +139,7 @@ function checkAction(action){
         music.currentTime = 0;
         music.playbackRate = 1;
         checkHighScore();
+        console.log("Action fail");
     }
 }
 
