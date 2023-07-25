@@ -10,6 +10,7 @@ let actionLock = false;
 let highScore = 0;
 let hit = new Audio("sounds/hit.mp3");
 let tap = new Audio("sounds/metronome.mp3");
+let failSound = new Audio("sounds/fail.mp3");
 
 function nextAction(){
     actionLock = false;
@@ -101,6 +102,8 @@ function startTimer(){
         $("#content").addClass("bg-failed")
         $("h1").text(level);
         $("#icon").attr("src", "images/fail.png");
+        playFailSound();
+        speedScale = 2000;
         started = false;
         clearInterval(metronome);
         checkHighScore();
@@ -127,6 +130,7 @@ function checkAction(action){
         $("h1").text(level);
         $("#icon").attr("src", "images/fail.png");
         $("#subtitle").text("(Hint: 'Bop it' is 'space'. 'R' to reset)");
+        playFailSound();
         speedScale = 2000;
         started = false;
         clearInterval(metronome);
@@ -147,6 +151,11 @@ function checkHighScore(){
 function playHit(){
     hit.volume = 0.2;
     hit.play();
+}
+
+function playFailSound(){
+    failSound.volume = 0.2;
+    failSound.play();
 }
 
 //Set click speed
