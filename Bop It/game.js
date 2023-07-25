@@ -133,13 +133,14 @@ function checkAction(action){
         $("#icon").attr("src", "images/fail.png");
         $("#subtitle").text("(Hint: 'Bop it' is 'space'. 'R' to reset)");
         playFailSound();
+        clearTimeout(timer);
         speedScale = 2000;
         started = false;
         music.pause();
         music.currentTime = 0;
         music.playbackRate = 1;
         checkHighScore();
-        console.log("Action fail");
+        console.log("Action fail (" + action + ")");
     }
 }
 
